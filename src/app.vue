@@ -2,45 +2,98 @@
  <div class="app-container">
    
    <!-- <顶部 Header 区域> -->
-  <mt-header fixed title="黑马程序员"></mt-header>
+  <mt-header fixed title="黑马程序员">
+		 <span to="/" slot="left" @click="goBack" v-show="flag">
+    <mt-button icon="back">返回</mt-button>
+  </span>
+	</mt-header>
 
     <!-- 中间的路由 router-view 区域 -->
-
+		<transition>
+		<router-view></router-view>
+		</transition>
 
     <!-- 底部 Tabbar 区域 -->
     <nav class="mui-bar mui-bar-tab">
-			<a class="mui-tab-item mui-active" href="#tabbar">
+			<router-link class="mui-tab-item" to="/home">
 				<span class="mui-icon mui-icon-home"></span>
 				<span class="mui-tab-label">首页</span>
-			</a>
-			<a class="mui-tab-item" href="#tabbar-with-chat">
-				<span class="mui-icon mui-icon-email"><span class="mui-badge">9</span></span>
-				<span class="mui-tab-label">消息</span>
-			</a>
-			<a class="mui-tab-item" href="#tabbar-with-contact">
+			</router-link>
+			<router-link class="mui-tab-item" to="/member">
 				<span class="mui-icon mui-icon-contact"></span>
-				<span class="mui-tab-label">通讯录</span>
-			</a>
-			<a class="mui-tab-item" href="#tabbar-with-map">
+				<span class="mui-tab-label">会员</span>
+			</router-link>
+			<router-link class="mui-tab-item" to="/shopcar">
+				<span class="mui-icon mui-icon-extra mui-icon-extra-cart">
+          <span class="mui-badge" id="badge">{{$store.getters.getAllCount}}</span>
+        </span>
+				<span class="mui-tab-label">购物车</span>
+			</router-link>
+			<router-link class="mui-tab-item" to="/search">
 				<span class="mui-icon mui-icon-gear"></span>
-				<span class="mui-tab-label">设置</span>
-			</a>
+				<span class="mui-tab-label">搜索</span>
+			</router-link>
 		</nav>
 
-    <h1>123</h1>
+    
   </div>
 
 </template>
 
 <script>
 
+	export default {
+		data() {
+			return {
+				flag:false
+			};
+		},
+		created() {
+			this.flag=this.$route.path=='/home'? false:true;
+		},
+		methods:{
+			goBack(){
+				//点击后退
+				this.$router.go(-1);
+			}
+		},
+		watch:{
+			"$route.path":function(newVal) {
+				if(newVal=="/home"){
+					this.flag=false;
+				}else{
+					this.flag=true;
+				}
+			}
+		}
+	}
+
 </script>
 
 <style lang='scss' scoped>
     .app-container{
       padding-top: 40px;
+			overflow-x: hidden;
+			padding-top: 40px;
+			padding-bottom: 60px;
     }
+
+		.v-enter,
+		{
+			opacity: 0;
+			transform: translateX(100%);
+		}
+		.v-leave-to{
+				opacity: 0;
+			transform: translateX(-100%);
+			position:absolute;
+		}
   
+		.v-enter-active,
+		.v-leave-active {
+			transition: all 0.5s ease;
+		}
+		* { touch-action: none; } 
 
 </style>
 

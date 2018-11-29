@@ -1,0 +1,22 @@
+.thmbs{
+    display: flex;
+}
+
+.thmbs > div {
+    width: 100%;
+}
+
+.thmbs .my-gallery{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.thmbs .my-gallery{
+    margin: 10px;
+    box-shadow: 0 0 10px #ccc;
+}
+
+.thmbs .my-gallery figure img{
+    width: 100px;
+    vertical-align: middle;
+}
